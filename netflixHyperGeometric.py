@@ -1,4 +1,4 @@
-def getData(path = "/Users/yaakov.tayeb/Documents/ML/Association_Rule_Learning/netflix_movies_users.txt"):
+def getData(path = "netflix_movies_users.txt"):
     from math import isnan
     data = pd.read_csv(path, sep='\t', header=None)  # read from file
     data.columns = ['user', 'movieId', 'none']
@@ -7,7 +7,7 @@ def getData(path = "/Users/yaakov.tayeb/Documents/ML/Association_Rule_Learning/n
     data['movieId'] = map(lambda x: str(int(x)) if str(x).isdigit() else x, data['movieId'])
     return data
 
-def addMovieId(data, path = "/Users/yaakov.tayeb/Documents/ML/Association_Rule_Learning/titles-id_dict.csv"):
+def addMovieId(data, path = "titles-id_dict.csv"):
 
     titles = pd.read_csv(path, sep=',', header=0)  # read from file
     titles['title'] = map(lambda x: x[0:x.find(" |")] if x.find(" |") > 0 else x, titles['title'])
@@ -76,65 +76,4 @@ if __name__ == '__main__':
         print(movieIdx1, nMovies)
 
     Results = pd.DataFrame({'Movie1': resultsMovie1, 'Movie2': resultsMovie2, 'pValue': rvPvalue})
-    Results.to_csv('MoviesIndex2.csv', sep='\t', index=False)
-    #Results.to_csv('MoviesIndex.csv', sep='\t', index=False)
-
-    # Results[Results['pValue']<0.05]
-
-    #end = time.time()
-
-    #print(end-start)
-
-'''
-Time: 21166.865052
-
-
-path = "/Users/yaakov.tayeb/Documents/similar/Clients/MoviesIndex.csv"
-movies = pd.read_csv(path, sep='\t', header=0)  # read from file
-movies[(movies['Movie1']=='The Crown') & (movies['pValue']<0.2)]
-
-
-ngood, nbad, nsamp = 100, 2, 10
-s = np.random.hypergeometric(ngood, nbad, nsamp, 1000)
-s = np.random.hypergeometric(15, 15, 15, 100000)
-
-sum(s>=12)/100000.0 + sum(s<=3)/100000.0
-plt.hist(s)
-
-prop_dict = {}
-for movie in tqdm(movies):
-    tmp_users = set(movies_dict[movie])
-    overlap_users = tmp_users.intersection(selected_users)
-    [M, n, N] = [total_users, len(selected_users), len(tmp_users)]
-    rv = hypergeom(M, n, N)
-    tmp_prop = rv.cdf(len(overlap_users))
-    try:
-        prop_dict[tuple([titles_id_dict[int(movie)][0], 'http://www.netflix.com/watch/' + str(int(movie))])] = tmp_prop
-    except:
-        prop_dict[tuple(['Not Availble','http://www.netflix.com/watch/' + str(int(movie))])] = tmp_prop
-
-
-
-
-
-# M - the entire pool
-# N - the amount of what we take from the pool
-# n - the desired group
-
-[M, n, N] = [len(data), moviesHist['Forensic Files'], moviesHist['The Fosters']]
-rv = hypergeom(M, n, N)
-x = np.arange(0, n+1)
-pmf_dogs = rv.pmf(x)
-
-plt.figure()
-plt.suptitle('hypergeom Moview', fontsize=10, color='#acc2d9')
-plt.plot(x, pmf_dogs, color='#FADB6F')
-plt.vlines(x, 0, pmf_dogs, lw=2)
-plt.xlabel('# of dogs in our group of chosen animals')
-plt.ylabel('hypergeom PMF')
-plt.show()
-
-rv.mean() (M, n, N, loc=0, moments='mv')
-
-'''
-
+    Results.to_csv('HyperGeometricResults.csv', sep='\t', index=False)
