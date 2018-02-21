@@ -5,4 +5,4 @@ Comparing 3 Recommandation algorithms
 2. Apriori algorithm
 3. Frequent Pattern Growth
 
-Visit my medium article about this code:
+Visit my medium article which follows this code:
